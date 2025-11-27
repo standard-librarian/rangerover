@@ -1,16 +1,14 @@
 package main
 
-import (
-	"fmt"
-	"log"
-)
-
 func main() {
-	fmt.Println("creating a sparce file in the download")
-	path, size := "/Users/medhatmohammed/Downloads/new.json", int64(3500)
-	if err := createEmptyFile(path, size); err != nil {
-		log.Fatalf("error creating the file %#v", err)
-	}
-	fmt.Println("creating done successfully")
+	// flags
+	url, dist, workers := "https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2018-05.parquet", "/Users/medhatmohammed/Documents/goprojects/rangerover/data", 10
 
+	downloader := Downloader{
+		Url:         url,
+		Destination: dist,
+		Workers:     workers,
+	}
+
+	downloader.Start()
 }
