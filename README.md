@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="rangerover.png" alt="RangeRover Logo" width="400"/>
+  <img src="rangerover.png" alt="RangeRover Logo" />
   
   # RangeRover
   
