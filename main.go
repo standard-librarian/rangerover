@@ -1,14 +1,41 @@
 package main
 
+import (
+	"flag"
+	"fmt"
+)
+
+var (
+	url                string
+	dist               string
+	numberOfGoroutines int
+	chunckSize         int
+	numberOfRetries    int
+)
+
+func init() {
+	flag.StringVar(&url, "url", "", "url of the file needed to be downloaded")
+	flag.StringVar(&dist, "dist", "", "the distination of the file to be downloaded")
+	flag.IntVar(&numberOfGoroutines, "n", 1, "parameter to limit the number of downloading goroutines")
+	flag.IntVar(&chunckSize, "s", 1_048_576, "parameter to set the max chunk size")
+	flag.IntVar(&numberOfRetries, "r", 3, "parameter to control number of retries")
+
+	flag.Parse()
+}
+
 func main() {
-	// flags
-	url, dist, workers := "https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2018-05.parquet", "/Users/medhatmohammed/Documents/goprojects/rangerover/data", 10
+	fmt.Printf("url: %s,\ndist: %s\nnumOfGo: %d\nchSize: %d\nnumOfReties: %d\n",
+		url,
+		dist,
+		numberOfGoroutines,
+		chunckSize,
+		numberOfRetries)
 
-	downloader := Downloader{
-		Url:         url,
-		Destination: dist,
-		Workers:     workers,
-	}
+	// downloader := Downloader{
+	// 	Url:         url,
+	// 	Destination: dist,
+	// 	Workers:     numberOfGoroutines,
+	// }
 
-	downloader.Start()
+	// downloader.Start()
 }
