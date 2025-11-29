@@ -34,7 +34,7 @@ func createEmptyFile(path string, size int64) (*os.File, error) {
 func GetRangeHeaders(url string) (RangesHeaders, error) {
 	resp, err := http.Head(url)
 	if err != nil {
-		return RangesHeaders{}, fmt.Errorf("error heading url:%s\n", url)
+		return RangesHeaders{}, fmt.Errorf("error heading url %s: %w", url, err)
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
