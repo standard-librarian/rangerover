@@ -31,11 +31,11 @@ func main() {
 		chunckSize,
 		numberOfRetries)
 
-	// downloader := Downloader{
-	// 	Url:         url,
-	// 	Destination: dist,
-	// 	Workers:     numberOfGoroutines,
-	// }
+	downloader := Downloader{
+		Url:         url,
+		Destination: dist,
+		Workers:     numberOfGoroutines,
+	}
 
-	// downloader.Start()
+	downloader.Start()
 }
