@@ -13,15 +13,24 @@ func (d Downloader) Start() error {
 	}
 
 	fileSize := rangesHeaders.ContentLength
-	if err := createEmptyFile(d.Destination, fileSize); err != nil {
+
+	file, err := createEmptyFile(d.Destination, fileSize)
+	if err != nil {
 		return err
 	}
+	defer file.Close()
+
+	// func caculateChuncks(fileSize, ChunkSize) []Chunk
+
 	chunk := Chunck{
 		size:   1024,
 		offset: 0,
 	}
-	// func caculateChuncks(fileSize, ChunkSize) []Chunk
-	Download(d.Url, chunk, d.Destination)
+
+	err = Download(d.Url, chunk, file)
+	if err != nil {
+		return err
+	}
 
 	return nil
 }

@@ -2,7 +2,10 @@ package main
 
 import (
 	"fmt"
+	"io"
+	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -17,7 +20,7 @@ type Chunck struct {
 	size   int64
 }
 
-func Download(url string, chunk Chunck, dist string) error {
+func Download(url string, chunk Chunck, file *os.File) error {
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
 		return fmt.Errorf("error creating a new GET/ request for url: %s\n", url)
@@ -35,9 +38,18 @@ func Download(url string, chunk Chunck, dist string) error {
 	}
 	defer resp.Body.Close()
 
-	if resp.StatusCode != http.StatusOK {
+	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusPartialContent {
 		return fmt.Errorf("Status code is not okay it is %d\n", resp.StatusCode)
 	}
-	fmt.Print(resp.Body)
+
+	pw := PartWriter{
+		File:   file,
+		Offset: chunk.offset,
+	}
+
+	if _, err := io.Copy(pw, resp.Body); err != nil {
+		log.Fatal(err)
+	}
+
 	return nil
 }

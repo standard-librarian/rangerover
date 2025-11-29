@@ -1,5 +1,5 @@
-URL  ?= https://www.google.com
-DIST ?= /home/here.txt
+URL  ?= https://http.cat/429
+DIST ?= /Users/medhatmohammed/Documents/goprojects/rangerover/data/file.txt
 N    ?= 4
 S    ?= 1023
 R    ?= 5

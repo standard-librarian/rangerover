@@ -24,12 +24,6 @@ func init() {
 }
 
 func main() {
-	fmt.Printf("url: %s,\ndist: %s\nnumOfGo: %d\nchSize: %d\nnumOfReties: %d\n",
-		url,
-		dist,
-		numberOfGoroutines,
-		chunckSize,
-		numberOfRetries)
 
 	downloader := Downloader{
 		Url:         url,
@@ -37,5 +31,5 @@ func main() {
 		Workers:     numberOfGoroutines,
 	}
 
-	downloader.Start()
+	fmt.Println(downloader.Start())
 }
