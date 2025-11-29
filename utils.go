@@ -12,7 +12,7 @@ type PartWriter struct {
 	Offset int64
 }
 
-func (pw PartWriter) Write(p []byte) (n int, err error) {
+func (pw *PartWriter) Write(p []byte) (n int, err error) {
 	n, err = pw.File.WriteAt(p, pw.Offset)
 	pw.Offset += int64(n)
 	return n, err
