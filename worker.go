@@ -48,7 +48,7 @@ func Download(url string, chunk Chunk, file *os.File) error {
 	}
 
 	if _, err := io.Copy(&pw, resp.Body); err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	return nil
