@@ -23,7 +23,7 @@ type Chunk struct {
 func Download(url string, chunk Chunk, file *os.File) error {
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
-		return fmt.Errorf("error creating a new GET/ request for url: %s\n", url)
+		return fmt.Errorf("error creating GET request for url %s: %w", url, err)
 	}
 
 	rangeVal := fmt.Sprintf("bytes=%d-%d", chunk.size*chunk.offset, chunk.size*chunk.offset+chunk.size-1)
