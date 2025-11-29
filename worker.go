@@ -26,7 +26,7 @@ func Download(url string, chunk Chunk, file *os.File) error {
 		return fmt.Errorf("error creating a new GET/ request for url: %s\n", url)
 	}
 
-	rangeVal := fmt.Sprintf("bytes=%d-%d", chunk.size*chunk.offset, chunk.size*(chunk.offset+1))
+	rangeVal := fmt.Sprintf("bytes=%d-%d", chunk.size*chunk.offset, chunk.size*chunk.offset+chunk.size-1)
 	req.Header.Set("Range", rangeVal)
 
 	client := &http.Client{
