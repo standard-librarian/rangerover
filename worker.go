@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-type RangesHeaders struct {
+type RangesHeader struct {
 	AcceptRanges  string
 	ContentLength int64
 	ETag          string

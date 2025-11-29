@@ -1,38 +1,38 @@
 package main
 
 import (
+	"errors"
 	"flag"
 	"log"
 )
 
-var (
-	url                string
-	dist               string
-	numberOfGoroutines int
-	chunckSize         int
-	numberOfRetries    int
-)
-
-func init() {
-	flag.StringVar(&url, "url", "", "url of the file needed to be downloaded")
-	flag.StringVar(&dist, "dist", "", "the destination of the file to be downloaded")
-	flag.IntVar(&numberOfGoroutines, "n", 1, "parameter to limit the number of downloading goroutines")
-	flag.IntVar(&chunckSize, "s", 1_048_576, "parameter to set the max chunk size")
-	flag.IntVar(&numberOfRetries, "r", 3, "parameter to control number of retries")
-
+func parseFlags() (*Config, error) {
+	cfg := &Config{}
+	flag.StringVar(&cfg.Url, "url", "", "URL of the file to download")
+	flag.StringVar(&cfg.Dest, "dist", "", "destination path")
+	flag.IntVar(&cfg.Workers, "n", 1, "number of parallel workers")
+	flag.Int64Var(&cfg.ChunkSize, "s", 1<<20, "chunk size in bytes")
+	flag.IntVar(&cfg.MaxRetries, "r", 3, "max retry attempts")
 	flag.Parse()
+
+	if cfg.Url == "" || cfg.Dest == "" {
+		return nil, errors.New("url and dist are required")
+	}
+	return cfg, nil
 }
 
 func main() {
-
-	d := Downloader{
-		Url:         url,
-		Destination: dist,
-		Workers:     numberOfGoroutines,
+	cfg, err := parseFlags()
+	if err != nil {
+		log.Fatal(err)
 	}
 
-	err := d.Start()
+	d, err := NewDownloader(*cfg)
 	if err != nil {
+		log.Fatal(err)
+	}
+
+	if err := d.Start(); err != nil {
 		log.Fatal(err)
 	}
 }
