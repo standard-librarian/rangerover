@@ -2,7 +2,7 @@ package main
 
 import (
 	"flag"
-	"fmt"
+	"log"
 )
 
 var (
@@ -25,11 +25,14 @@ func init() {
 
 func main() {
 
-	downloader := Downloader{
+	d := Downloader{
 		Url:         url,
 		Destination: dist,
 		Workers:     numberOfGoroutines,
 	}
 
-	fmt.Println(downloader.Start())
+	err := d.Start()
+	if err != nil {
+		log.Fatal(err)
+	}
 }

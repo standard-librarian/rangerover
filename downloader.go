@@ -22,7 +22,7 @@ func (d Downloader) Start() error {
 
 	// func caculateChuncks(fileSize, ChunkSize) []Chunk
 
-	chunk := Chunck{
+	chunk := Chunk{
 		size:   min(fileSize, 1_048_576),
 		offset: 0,
 	}
