@@ -34,7 +34,7 @@ func Download(url string, chunk Chunck, file *os.File) error {
 	}
 	resp, err := client.Do(req)
 	if err != nil {
-		return fmt.Errorf("error sending a new GET request %#v for url: %s\n", req, url)
+		return fmt.Errorf("error sending GET request to %s: %w", url, err)
 	}
 	defer resp.Body.Close()
 
