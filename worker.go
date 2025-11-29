@@ -23,10 +23,10 @@ type Chunk struct {
 func Download(url string, chunk Chunk, file *os.File) error {
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
-		return fmt.Errorf("error creating a new GET/ request for url: %s\n", url)
+		return fmt.Errorf("error creating GET request for url %s: %w", url, err)
 	}
 
-	rangeVal := fmt.Sprintf("bytes=%d-%d", chunk.size*chunk.offset, chunk.size*(chunk.offset+1))
+	rangeVal := fmt.Sprintf("bytes=%d-%d", chunk.size*chunk.offset, chunk.size*chunk.offset+chunk.size-1)
 	req.Header.Set("Range", rangeVal)
 
 	client := &http.Client{
@@ -34,7 +34,7 @@ func Download(url string, chunk Chunk, file *os.File) error {
 	}
 	resp, err := client.Do(req)
 	if err != nil {
-		return fmt.Errorf("error sending a new GET request %#v for url: %s\n", req, url)
+		return fmt.Errorf("error sending GET request to %s: %w", url, err)
 	}
 	defer resp.Body.Close()
 
@@ -48,7 +48,7 @@ func Download(url string, chunk Chunk, file *os.File) error {
 	}
 
 	if _, err := io.Copy(&pw, resp.Body); err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	return nil

@@ -20,7 +20,7 @@ func (d Downloader) Start() error {
 	}
 	defer file.Close()
 
-	// func caculateChuncks(fileSize, ChunkSize) []Chunk
+	// func calculateChunks(fileSize, ChunkSize) []Chunk
 
 	chunk := Chunk{
 		size:   min(fileSize, 1_048_576),

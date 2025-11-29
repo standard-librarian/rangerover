@@ -25,8 +25,14 @@ func createEmptyFile(path string, size int64) (*os.File, error) {
 		return nil, err
 	}
 	// defer file.Close()
-	file.Seek(size-1, io.SeekStart)
-	file.Write([]byte{0})
+	if _, err := file.Seek(size-1, io.SeekStart); err != nil {
+		file.Close()
+		return nil, err
+	}
+	if _, err := file.Write([]byte{0}); err != nil {
+		file.Close()
+		return nil, err
+	}
 	return file, nil
 }
 
@@ -34,7 +40,7 @@ func createEmptyFile(path string, size int64) (*os.File, error) {
 func GetRangeHeaders(url string) (RangesHeaders, error) {
 	resp, err := http.Head(url)
 	if err != nil {
-		return RangesHeaders{}, fmt.Errorf("error heading url:%s\n", url)
+		return RangesHeaders{}, fmt.Errorf("error heading url %s: %w", url, err)
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
