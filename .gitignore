@@ -31,3 +31,5 @@ go.work.sum
 # .idea/
 # .vscode/
 .DS_Store
+.zed/debug.json
+data/file.txt
