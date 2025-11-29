@@ -15,12 +15,12 @@ type RangesHeaders struct {
 	ETag          string
 }
 
-type Chunck struct {
+type Chunk struct {
 	offset int64
 	size   int64
 }
 
-func Download(url string, chunk Chunck, file *os.File) error {
+func Download(url string, chunk Chunk, file *os.File) error {
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
 		return fmt.Errorf("error creating a new GET/ request for url: %s\n", url)
